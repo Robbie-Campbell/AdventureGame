@@ -2,9 +2,7 @@ package com.company.Assets;
 
 
 import com.company.KeyFunctions.InventoryDisplay;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 // Stores all player information
@@ -12,6 +10,7 @@ public class Player{
     public int maxHealth = 100;
     public int health = 100;
     public int level = 1;
+    public String item = "";
     public String character;
     boolean undecided = true;
     public int attackDamage = 10;
@@ -37,7 +36,7 @@ public class Player{
                 case "AD" -> {System.out.printf("Current attack damage: %d\n", this.attackDamage);  undecided = false;}
                 case "I" -> {System.out.printf("Current inventory: %s\n", InventoryDisplay.inventoryToString(this.inventory));
                 undecided = false;}
-                case "E" -> undecided = false;
+                case "E" -> { System.out.println("You leave the check status menu.");undecided = false; }
                 default -> System.out.println("Please enter a valid value\n");
             }
         }
@@ -60,6 +59,7 @@ public class Player{
                 case "SW":
                     if (enemy) {
                         System.out.printf("You attack the enemy, dealing %d damage!%n", this.attackDamage);
+                        this.item = "SW";
                         undecided = false;
                         break;
                     } else {
@@ -68,9 +68,14 @@ public class Player{
                         break;
                     }
                 case "HP":
-                    if(this.inventory.contains("healing potion")) {
-                        this.inventory.remove("healing potion");
-                        if (this.health + 10 < maxHealth) {
+                    if(this.inventory.contains("healing potion (HP)")) {
+                        if (this.health == this.maxHealth)
+                        {
+                            System.out.println("You are already at maximum health.");
+                            undecided = false;
+                            break;
+                        }
+                        else if (this.health + 10 < this.maxHealth) {
                             this.health += 10;
                         }
                         else{
@@ -78,6 +83,7 @@ public class Player{
                         }
                         System.out.printf("Your health has is now %d%d\n", this.health, this.maxHealth);
                         undecided = false;
+                        this.inventory.remove("healing potion");
                         break;
                     }
                     else{
@@ -87,15 +93,19 @@ public class Player{
                     }
                 case "SH":
                     if (enemy) {
-                        System.out.println("You block the attack!");
+                        System.out.println("You use a shield.");
+                        this.item = "SH";
                         undecided = false;
+                        break;
                     } else {
                         System.out.println("You raise your shield to the sky in a confused manner.");
                         undecided = false;
+                        break;
                     }
                 case "E":
                     System.out.println("You leave the item select menu");
                     undecided = false;
+                    break;
                 default:
                     System.out.println("Please select a valid option");
             }

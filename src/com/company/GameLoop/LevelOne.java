@@ -44,7 +44,7 @@ public class LevelOne {
                 }
                 default -> System.out.println("Please enter a valid option");
             }
-            System.out.println("And that's the game so far! This is a super fun project!!!");
         }
+        System.out.println("And that's the game so far! This is a super fun project!!!");
     }
 }
