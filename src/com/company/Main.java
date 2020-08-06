@@ -1,8 +1,8 @@
 package com.company;
 import com.company.GameLoop.Introduction;
 import com.company.GameLoop.LevelOne;
-import java.util.Scanner;
 
+// Call and run all classes
 public class Main {
 
     public static void main(String[] args) {

@@ -8,19 +8,29 @@ import java.util.Scanner;
 
 // Stores all player information
 public class Player{
+
+    // The random option used for all gameplay options
     public Random rand = new Random();
+
+    // The level up variables
     public int currentXP = 0;
     public int nextLevel = 50;
+    public int level = 1;
+
+    // Character traits
     public int maxHealth = 100;
     public int damage;
     public int health = 100;
-    public int level = 1;
-    public String item = "";
     public String character;
-    boolean undecided = true;
     public int attackDamage = 10;
     public HashMap<String, Integer> inventory = new HashMap<>();
+
+    // Sets which item is in use
+    public String item = "";
+
+    // Conditional statements
     public boolean enemy = false;
+    boolean undecided = true;
     public Player(String name) {
         this.character = name;
         this.inventory.put("sword (SW)", 1);
@@ -28,6 +38,7 @@ public class Player{
         this.inventory.put("shield (SH)", 1 );
     }
 
+    // The function which levels up the player character
     public void levelUp(){
         if (currentXP >= nextLevel) {
             this.level++;
@@ -38,8 +49,8 @@ public class Player{
                     "your new AD is %d!\n", this.level, this.maxHealth, this.attackDamage);
             this.currentXP  -= this.nextLevel;
             this.nextLevel *= 1.4;
-            System.out.println("Current xp : " + this.currentXP);
-            System.out.println("next level : " + this.nextLevel);
+            System.out.println("Current XP : " + this.currentXP);
+            System.out.println("Next Level : " + this.nextLevel);
         }
     }
 
@@ -60,13 +71,9 @@ public class Player{
                 default -> System.out.println("Please enter a valid value\n");
             }
         }
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
+    // Attack any enemies, probabilities determine the likelihood of successful and critical attacks
     public int SwordAttack() {
         int hitChance = rand.nextInt(100);
         if (enemy) {
@@ -90,19 +97,25 @@ public class Player{
     // The responses for the players using their items
     public void useItem()
     {
+        // Display inventory available items
         undecided = true;
         System.out.println("You can use: " + InventoryDisplay.inventoryToString(this.inventory) + " (or exit 'E')");
         Scanner useAnItem = new Scanner(System.in);
         String choice = useAnItem.nextLine();
+
+        // Decision loop
         while (undecided){
             this.item = "";
             switch (choice) {
+
+                // Set the damage for reference to enemy attacks
                 case "SW":
                     this.item = "SW";
                     this.damage = this.SwordAttack();
                     undecided = false;
                     break;
                 case "HP":
+                    // Health potion options
                     if(this.inventory.containsKey("healing potion (HP)")) {
                         if (this.health == this.maxHealth)
                         {
@@ -118,6 +131,8 @@ public class Player{
                         }
                         System.out.printf("Your health has is now %d/%d\n", this.health, this.maxHealth);
                         undecided = false;
+
+                        // Remove one health potion from the hashmap or remove from inventory entirely
                         this.inventory.put("healing potion (HP)", this.inventory.get("healing potion (HP)") -1);
                         if (this.inventory.get("healing potion (HP)") == 0)
                         {
@@ -131,6 +146,7 @@ public class Player{
                         break;
                     }
                 case "SH":
+                    // Block an enemy attack... haven't really decided what to do here yet
                     if (enemy) {
                         System.out.println("You use a shield.");
                         this.item = "SH";
@@ -142,6 +158,7 @@ public class Player{
                         break;
                     }
                 case "E":
+                    // Leave the menu
                     System.out.println("You leave the item select menu");
                     undecided = false;
                     break;

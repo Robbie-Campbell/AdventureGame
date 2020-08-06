@@ -1,12 +1,17 @@
 package com.company.GameLoop;
+
 import com.company.Assets.Player;
 import com.company.Assets.PeasantEnemy;
 import java.util.Scanner;
 
+// The first area in the game
 public class LevelOne {
+
+    // Reintroduce the player object
     Player player1 = Introduction.player1;
     String constantChoices = "C - Check current status\nU - Use item";
 
+    // The option for speaking to the villager further into the story
     public void spokeToVillagerOption(){
         System.out.println("After considering the townspersons suggestion for a while, you hear a kerfuffle " +
                 "in the town center. What do you do?");
@@ -28,6 +33,9 @@ public class LevelOne {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
+                // Instigate a fight with the 2 peasants, with further versions the 2 peasants will fight simultaniously,
+                // I'm not quite sure how to implement this yet.
                 PeasantEnemy peasant1 = new PeasantEnemy(30);
                 PeasantEnemy peasant2 = new PeasantEnemy(20);
                 System.out.printf("Peasant %s shouts over 'Oi! You're that bandit from Glarbog aren't you! There's a pretty price on your head! " +
@@ -47,16 +55,14 @@ public class LevelOne {
 
     }
 
+    // The main game loop
     public void startGame(){
-        String setting = String.format("%s, You are a bandit in the land of Glarbog, exiled from your home, you start your journey \n" +
-                "You are in the town center and you are looking for your brother, Garth\n" +
-                "What do you do first?\n" +
-                constantChoices +
-                "\nT - Talk to townspeople\n" +
-                "S - Search for Garth", player1.character);
         boolean unanswered = true;
+        String setting = String.format("%s, You are a bandit in the land of Glarbog, exiled from your home, you start your journey \n" +
+                "You are in the town center and you are looking for your brother, Garth\n",player1.character);
         while (unanswered) {
             System.out.println(setting);
+            System.out.println("What do you do first?\n" + constantChoices +"T - Talk to townspeople\nS - Search for Garth");
             Scanner Choice = new Scanner(System.in);
             String action = Choice.nextLine();
             switch (action) {
@@ -74,6 +80,8 @@ public class LevelOne {
                 case "S" -> {
                     System.out.println("You try to look for Garth but to no avail, but it seems a something is happening in" +
                             " the middle of town...");
+
+                    // A couple of pauses for readability and suspense.
                     try {
                         Thread.sleep(2000);
                     } catch (InterruptedException e) {
@@ -85,6 +93,8 @@ public class LevelOne {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+
+                    // Instigate a fight.
                     System.out.println("He shouts angrily 'Are you looking at me funny boy! I'll teach you a lesson!'");
                     PeasantEnemy peasant1 = new PeasantEnemy(20);
                     peasant1.fight();
@@ -93,6 +103,7 @@ public class LevelOne {
                 default -> System.out.println("Please enter a valid option");
             }
         }
+        // Obviously, more content will be added from here! thanks for reading
         System.out.println("And that's the game so far! This is a super fun project!!!");
     }
 }

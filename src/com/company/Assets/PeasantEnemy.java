@@ -1,24 +1,30 @@
 package com.company.Assets;
-import com.company.GameLoop.Introduction;
-import com.company.Assets.Player;
 
+import com.company.GameLoop.Introduction;
 import java.util.Random;
 import java.util.Scanner;
 
+// A Peasant enemy object
 public class PeasantEnemy {
-    public String constantChoices = "C - Check current status\nU - Use item";
-    Player player = Introduction.player1;
+
+    // The random option used for all gameplay options
     public Random rand = new Random();
+    public String constantChoices = "C - Check current status\nU - Use item";
+
+    // Determine the player for reference
+    Player player = Introduction.player1;
+
+    // Set the peasant instance
     public int health;
     public int attackDamage = 5;
-    public String[] name = {"Barry", "Gary", "Larry", "Geoff", "Steve", "Carl"};
+    String[] name = {"Barry", "Gary", "Larry", "Geoff", "Steve", "Carl"};
     public String nameChoice = name[rand.nextInt(6)];
     public boolean hit = false;
-
     public PeasantEnemy(int health){
         this.health = health;
     }
 
+    // The peasant attack loop, uses random to determine hit severity
     public void attack(){
         int successfulHit = rand.nextInt(100);
         if (successfulHit > 0 && successfulHit < 10)
@@ -40,6 +46,7 @@ public class PeasantEnemy {
         }
     }
 
+    // The fight loop, this plays as long as the peasants health is above 0
     public void fight()
     {
         player.enemy = true;
@@ -69,12 +76,17 @@ public class PeasantEnemy {
                         }
                     }
                 }
+
+                // Just a bit of fun :)
                 case "R" ->{
                     System.out.println("You ran away, You're a total coward and everyone thinks you're a bellend!\n");
                     return;
                 }
             }
         }
+
+        // Determines if the player gets a reward after fighting the peasant, either an item or a level up
+        // With further versions a full item array will be added and selected randomly, this is a placeholder.
         if (rand.nextInt(10) < 4)
         {
             System.out.printf("Peasant %s dropped a health potion!\n", this.nameChoice);
