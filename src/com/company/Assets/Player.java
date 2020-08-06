@@ -2,25 +2,56 @@ package com.company.Assets;
 
 
 import com.company.KeyFunctions.InventoryDisplay;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
 import java.util.Scanner;
 
 // Stores all player information
 public class Player{
-    public int maxHealth = 100;
-    public int health = 100;
+
+    // The random option used for all gameplay options
+    public Random rand = new Random();
+
+    // The level up variables
+    public int currentXP = 0;
+    public int nextLevel = 50;
     public int level = 1;
-    public String item = "";
+
+    // Character traits
+    public int maxHealth = 100;
+    public int damage;
+    public int health = 100;
     public String character;
-    boolean undecided = true;
     public int attackDamage = 10;
-    public ArrayList<String> inventory = new ArrayList<>();
+    public HashMap<String, Integer> inventory = new HashMap<>();
+
+    // Sets which item is in use
+    public String item = "";
+
+    // Conditional statements
     public boolean enemy = false;
+    boolean undecided = true;
     public Player(String name) {
-        character = name;
-        inventory.add("sword (SW)");
-        inventory.add("healing potion (HP)");
-        inventory.add("shield (SH)");
+        this.character = name;
+        this.inventory.put("sword (SW)", 1);
+        this.inventory.put("healing potion (HP)", 1);
+        this.inventory.put("shield (SH)", 1 );
+    }
+
+    // The function which levels up the player character
+    public void levelUp(){
+        if (currentXP >= nextLevel) {
+            this.level++;
+            this.attackDamage += 2;
+            this.maxHealth += 5;
+            this.health = maxHealth;
+            System.out.printf("Congratulations! You leveled up! Your new level is %d, your new max health is %d and " +
+                    "your new AD is %d!\n", this.level, this.maxHealth, this.attackDamage);
+            this.currentXP  -= this.nextLevel;
+            this.nextLevel *= 1.4;
+            System.out.println("Current XP : " + this.currentXP);
+            System.out.println("Next Level : " + this.nextLevel);
+        }
     }
 
     // Allows to player to check their current stats
@@ -40,50 +71,73 @@ public class Player{
                 default -> System.out.println("Please enter a valid value\n");
             }
         }
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    }
+
+    // Attack any enemies, probabilities determine the likelihood of successful and critical attacks
+    public int SwordAttack() {
+        int hitChance = rand.nextInt(100);
+        if (enemy) {
+            int crit = 0;
+            if (hitChance <= 10) {
+                crit = this.attackDamage * 2;
+                System.out.printf("You critically hit the enemy!! dealing %d damage!\n", this.attackDamage * 2);
+            } else if (hitChance < 80) {
+                crit = this.attackDamage;
+                System.out.printf("You hit the enemy for %d damage!\n", this.attackDamage);
+            } else {
+                System.out.println("You missed the enemy!\n");
+            }
+            return crit;
+        } else {
+            System.out.println("You swing your sword aimlessly at the air.");
+            return 0;
         }
     }
 
     // The responses for the players using their items
     public void useItem()
     {
+        // Display inventory available items
         undecided = true;
         System.out.println("You can use: " + InventoryDisplay.inventoryToString(this.inventory) + " (or exit 'E')");
         Scanner useAnItem = new Scanner(System.in);
         String choice = useAnItem.nextLine();
+
+        // Decision loop
         while (undecided){
+            this.item = "";
             switch (choice) {
+
+                // Set the damage for reference to enemy attacks
                 case "SW":
-                    if (enemy) {
-                        System.out.printf("You attack the enemy, dealing %d damage!%n", this.attackDamage);
-                        this.item = "SW";
-                        undecided = false;
-                        break;
-                    } else {
-                        System.out.println("You swing your sword aimlessly at the air.");
-                        undecided = false;
-                        break;
-                    }
+                    this.item = "SW";
+                    this.damage = this.SwordAttack();
+                    undecided = false;
+                    break;
                 case "HP":
-                    if(this.inventory.contains("healing potion (HP)")) {
+                    // Health potion options
+                    if(this.inventory.containsKey("healing potion (HP)")) {
                         if (this.health == this.maxHealth)
                         {
                             System.out.println("You are already at maximum health.");
                             undecided = false;
                             break;
                         }
-                        else if (this.health + 10 < this.maxHealth) {
+                        if (this.health + 10 < this.maxHealth) {
                             this.health += 10;
                         }
                         else{
-                            this.health = 100;
+                            this.health = this.maxHealth;
                         }
-                        System.out.printf("Your health has is now %d%d\n", this.health, this.maxHealth);
+                        System.out.printf("Your health has is now %d/%d\n", this.health, this.maxHealth);
                         undecided = false;
-                        this.inventory.remove("healing potion");
+
+                        // Remove one health potion from the hashmap or remove from inventory entirely
+                        this.inventory.put("healing potion (HP)", this.inventory.get("healing potion (HP)") -1);
+                        if (this.inventory.get("healing potion (HP)") == 0)
+                        {
+                            this.inventory.remove("healing potion (HP)");
+                        }
                         break;
                     }
                     else{
@@ -92,6 +146,7 @@ public class Player{
                         break;
                     }
                 case "SH":
+                    // Block an enemy attack... haven't really decided what to do here yet
                     if (enemy) {
                         System.out.println("You use a shield.");
                         this.item = "SH";
@@ -103,6 +158,7 @@ public class Player{
                         break;
                     }
                 case "E":
+                    // Leave the menu
                     System.out.println("You leave the item select menu");
                     undecided = false;
                     break;
@@ -111,7 +167,7 @@ public class Player{
             }
         }
         try {
-            Thread.sleep(3000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
