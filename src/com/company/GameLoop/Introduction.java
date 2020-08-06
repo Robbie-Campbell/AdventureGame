@@ -15,7 +15,7 @@ public class Introduction {
                 "Good luck!", player1.character, player1.health, player1.maxHealth, InventoryDisplay.inventoryToString(player1.inventory));
         System.out.println(gameAnnouncement);
         try {
-            Thread.sleep(3000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

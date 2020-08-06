@@ -9,11 +9,15 @@ public class PeasantEnemy {
     public String constantChoices = "C - Check current status\nU - Use item";
     Player player = Introduction.player1;
     public Random rand = new Random();
-    public int health = 20;
+    public int health;
     public int attackDamage = 5;
-    public String[] name = {"Barry", "Gary", "Larry"};
-    public String nameChoice = name[rand.nextInt(3)];
+    public String[] name = {"Barry", "Gary", "Larry", "Geoff", "Steve", "Carl"};
+    public String nameChoice = name[rand.nextInt(6)];
     public boolean hit = false;
+
+    public PeasantEnemy(int health){
+        this.health = health;
+    }
 
     public void attack(){
         int successfulHit = rand.nextInt(100);
@@ -36,14 +40,11 @@ public class PeasantEnemy {
         }
     }
 
-    public void takeDamage(){
-        this.health -= player.attackDamage;
-    }
     public void fight()
     {
         player.enemy = true;
-        System.out.printf("Oh No, Peasant %s wants to fight you! What do you do?\n", this.nameChoice);
         while (this.health > 0) {
+            System.out.println("What do you do?:");
             System.out.println(constantChoices);
             System.out.println("R - run away.");
             Scanner choice = new Scanner(System.in);
@@ -55,14 +56,13 @@ public class PeasantEnemy {
                 case "U" -> {
                     player.useItem();
                     if (this.health > 0 && player.item.equals("SW")) {
-                        this.takeDamage();
+                        this.health -= player.damage;
                         this.attack();
                     }
                     else if (player.item.equals("SH"))
                     {
                         if (rand.nextInt(100) < 10) {
                             System.out.printf("%s Still broke your guard and dealt %d damage!!!", this.nameChoice, this.attackDamage);
-                            player.health -= this.attackDamage;
                         }
                         else{
                             System.out.println("Attack successfully blocked!");
@@ -70,15 +70,18 @@ public class PeasantEnemy {
                     }
                 }
                 case "R" ->{
-                    System.out.println("You ran away, You are a total coward");
+                    System.out.println("You ran away, You're a total coward and everyone thinks you're a bellend!\n");
                     return;
                 }
             }
         }
-        player.level++;
-        player.attackDamage += 2;
-        player.maxHealth += 5;
-        System.out.printf("Congratulations! You defeated peasant %s! Your new level is %d, your new max health is %d and " +
-                "your new AD is %d!\n", this.nameChoice, player.level, player.maxHealth, player.attackDamage);
+        if (rand.nextInt(10) < 4)
+        {
+            System.out.printf("Peasant %s dropped a health potion!\n", this.nameChoice);
+            player.inventory.put("healing potion (HP)", player.inventory.get("healing potion (HP)") +1);
+        }
+        player.enemy = false;
+        player.currentXP += rand.nextInt(20) + 50;
+        player.levelUp();
     }
 }
