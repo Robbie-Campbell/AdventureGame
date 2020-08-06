@@ -8,11 +8,11 @@ import java.util.Scanner;
 public class LevelOne {
 
     // Reintroduce the player object
-    Player player1 = Introduction.player1;
-    String constantChoices = "C - Check current status\nU - Use item";
+    private Player player1 = Introduction.player1;
+    private String constantChoices = "C - Check current status\nU - Use item";
 
     // The option for speaking to the villager further into the story
-    public void spokeToVillagerOption(){
+    private void spokeToVillagerOption(){
         System.out.println("After considering the townspersons suggestion for a while, you hear a kerfuffle " +
                 "in the town center. What do you do?");
         System.out.println(constantChoices);
@@ -20,13 +20,11 @@ public class LevelOne {
         Scanner choice = new Scanner(System.in);
         String action = choice.nextLine();
         switch (action) {
-            case "C" -> {
+            case "C":
                 player1.checkStatus();
-            }
-            case "U" -> {
+            case "U":
                 player1.useItem();
-            }
-            case "I" -> {
+            case "I":
                 System.out.println("2 men are fighting in the town center, they turn to you...");
                 try {
                     Thread.sleep(2000);
@@ -53,8 +51,6 @@ public class LevelOne {
             }
         }
 
-    }
-
     // The main game loop
     public void startGame(){
         boolean unanswered = true;
@@ -66,21 +62,20 @@ public class LevelOne {
             Scanner Choice = new Scanner(System.in);
             String action = Choice.nextLine();
             switch (action) {
-                case "C" ->{
+                case "C":
                     player1.checkStatus();
-                }
-                case "U" -> {
+                    break;
+                case "U":
                     player1.useItem();
-                }
-                case "T" -> {
+                    break;
+                case "T":
                     System.out.println("You talk to a townsperson, they suggest you look at the inn to find garth");
                     unanswered = false;
                     spokeToVillagerOption();
-                }
-                case "S" -> {
+                    break;
+                case "S":
                     System.out.println("You try to look for Garth but to no avail, but it seems a something is happening in" +
                             " the middle of town...");
-
                     // A couple of pauses for readability and suspense.
                     try {
                         Thread.sleep(2000);
@@ -93,14 +88,13 @@ public class LevelOne {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-
                     // Instigate a fight.
                     System.out.println("He shouts angrily 'Are you looking at me funny boy! I'll teach you a lesson!'");
                     PeasantEnemy peasant1 = new PeasantEnemy(20);
                     peasant1.fight();
                     unanswered = false;
-                }
-                default -> System.out.println("Please enter a valid option");
+                    break;
+                default: System.out.println("Please enter a valid option");
             }
         }
         // Obviously, more content will be added from here! thanks for reading

@@ -8,24 +8,22 @@ import java.util.Scanner;
 public class PeasantEnemy {
 
     // The random option used for all gameplay options
-    public Random rand = new Random();
-    public String constantChoices = "C - Check current status\nU - Use item";
+    private Random rand = new Random();
 
     // Determine the player for reference
-    Player player = Introduction.player1;
+    private Player player = Introduction.player1;
 
     // Set the peasant instance
-    public int health;
-    public int attackDamage = 5;
-    String[] name = {"Barry", "Gary", "Larry", "Geoff", "Steve", "Carl"};
+    private int health;
+    private int attackDamage = 5;
+    private String[] name = {"Barry", "Gary", "Larry", "Geoff", "Steve", "Carl"};
     public String nameChoice = name[rand.nextInt(6)];
-    public boolean hit = false;
     public PeasantEnemy(int health){
         this.health = health;
     }
 
     // The peasant attack loop, uses random to determine hit severity
-    public void attack(){
+    private void attack(){
         int successfulHit = rand.nextInt(100);
         if (successfulHit > 0 && successfulHit < 10)
         {
@@ -52,15 +50,16 @@ public class PeasantEnemy {
         player.enemy = true;
         while (this.health > 0) {
             System.out.println("What do you do?:");
+            String constantChoices = "C - Check current status\nU - Use item";
             System.out.println(constantChoices);
             System.out.println("R - run away.");
             Scanner choice = new Scanner(System.in);
             String action = choice.nextLine();
             switch (action) {
-                case "C" -> {
+                case "C":
                     player.checkStatus();
-                }
-                case "U" -> {
+                    break;
+                case "U":
                     player.useItem();
                     if (this.health > 0 && player.item.equals("SW")) {
                         this.health -= player.damage;
@@ -71,17 +70,17 @@ public class PeasantEnemy {
                         if (rand.nextInt(100) < 10) {
                             System.out.printf("%s Still broke your guard and dealt %d damage!!!", this.nameChoice, this.attackDamage);
                         }
-                        else{
+                        else {
                             System.out.println("Attack successfully blocked!");
                         }
                     }
-                }
+                    break;
 
                 // Just a bit of fun :)
-                case "R" ->{
+                case "R":
                     System.out.println("You ran away, You're a total coward and everyone thinks you're a bellend!\n");
                     return;
-                }
+                default: System.out.println("Please enter a valid option");
             }
         }
 

@@ -10,27 +10,27 @@ import java.util.Scanner;
 public class Player{
 
     // The random option used for all gameplay options
-    public Random rand = new Random();
+    private Random rand = new Random();
 
     // The level up variables
-    public int currentXP = 0;
-    public int nextLevel = 50;
-    public int level = 1;
+    int currentXP = 0;
+    private int nextLevel = 50;
+    private int level = 1;
 
     // Character traits
     public int maxHealth = 100;
-    public int damage;
+    int damage;
     public int health = 100;
     public String character;
-    public int attackDamage = 10;
+    private int attackDamage = 10;
     public HashMap<String, Integer> inventory = new HashMap<>();
 
     // Sets which item is in use
-    public String item = "";
+    String item = "";
 
     // Conditional statements
-    public boolean enemy = false;
-    boolean undecided = true;
+    boolean enemy = false;
+    private boolean undecided = true;
     public Player(String name) {
         this.character = name;
         this.inventory.put("sword (SW)", 1);
@@ -39,7 +39,7 @@ public class Player{
     }
 
     // The function which levels up the player character
-    public void levelUp(){
+    void levelUp(){
         if (currentXP >= nextLevel) {
             this.level++;
             this.attackDamage += 2;
@@ -62,19 +62,19 @@ public class Player{
             Scanner check = new Scanner(System.in);
             String checktype = check.nextLine();
             switch (checktype) {
-                case "H" -> {System.out.printf("Current health: %d/%d\n", this.health, this.maxHealth); undecided = false;}
-                case "L" -> {System.out.printf("Current level: %d\n", this.level); undecided = false;}
-                case "AD" -> {System.out.printf("Current attack damage: %d\n", this.attackDamage);  undecided = false;}
-                case "I" -> {System.out.printf("Current inventory: %s\n", InventoryDisplay.inventoryToString(this.inventory));
-                undecided = false;}
-                case "E" -> { System.out.println("You leave the check status menu.");undecided = false; }
-                default -> System.out.println("Please enter a valid value\n");
+                case "H":System.out.printf("Current health: %d/%d\n", this.health, this.maxHealth); undecided = false;
+                case "L":System.out.printf("Current level: %d\n", this.level); undecided = false;
+                case "AD":System.out.printf("Current attack damage: %d\n", this.attackDamage);  undecided = false;
+                case "I":System.out.printf("Current inventory: %s\n", InventoryDisplay.inventoryToString(this.inventory));
+                undecided = false;
+                case "E": System.out.println("You leave the check status menu.");undecided = false;
+                default:System.out.println("Please enter a valid value\n");
             }
         }
     }
 
     // Attack any enemies, probabilities determine the likelihood of successful and critical attacks
-    public int SwordAttack() {
+    private int SwordAttack() {
         int hitChance = rand.nextInt(100);
         if (enemy) {
             int crit = 0;
@@ -162,8 +162,7 @@ public class Player{
                     System.out.println("You leave the item select menu");
                     undecided = false;
                     break;
-                default:
-                    System.out.println("Please select a valid option");
+                default: System.out.println("Please select a valid option");
             }
         }
         try {
