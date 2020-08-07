@@ -14,28 +14,46 @@ public class Player{
 
     // The level up variables
     int currentXP = 0;
-    private int nextLevel = 50;
+    int nextLevel = 30;
     private int level = 1;
 
     // Character traits
     public int maxHealth = 100;
+    boolean isSober = true;
     int damage;
+    public String genderChildStatus;
+    public String genderSiblingStatus;
     public int health = 100;
     public String character;
     private int attackDamage = 10;
     public HashMap<String, Integer> inventory = new HashMap<>();
 
     // Sets which item is in use
-    String item = "";
+    public String item = "";
 
     // Conditional statements
     boolean enemy = false;
     private boolean undecided = true;
-    public Player(String name) {
+    public Player(String name, String gender) {
         this.character = name;
         this.inventory.put("sword (SW)", 1);
         this.inventory.put("healing potion (HP)", 1);
         this.inventory.put("shield (SH)", 1 );
+
+        // Set gender status
+        switch(gender){
+            case "M":
+                this.genderChildStatus = "boy";
+                this.genderSiblingStatus = "brother";
+                break;
+            case "F":
+                this.genderChildStatus = "girl";
+                this.genderSiblingStatus = "sister";
+                break;
+            default:
+                this.genderChildStatus = "person";
+                this.genderSiblingStatus = "sibling";
+        }
     }
 
     // The function which levels up the player character
@@ -49,8 +67,8 @@ public class Player{
                     "your new AD is %d!\n", this.level, this.maxHealth, this.attackDamage);
             this.currentXP  -= this.nextLevel;
             this.nextLevel *= 1.4;
-            System.out.println("Current XP : " + this.currentXP);
-            System.out.println("Next Level : " + this.nextLevel);
+            System.out.printf("Current XP : %dXP\n", this.currentXP);
+            System.out.printf("Next Level XP needed : %dXP\n", this.nextLevel - this.currentXP);
         }
     }
 
@@ -65,7 +83,7 @@ public class Player{
                 case "H":System.out.printf("Current health: %d/%d\n", this.health, this.maxHealth); undecided = false;
                 case "L":System.out.printf("Current level: %d\n", this.level); undecided = false;
                 case "AD":System.out.printf("Current attack damage: %d\n", this.attackDamage);  undecided = false;
-                case "I":System.out.printf("Current inventory: %s\n", InventoryDisplay.inventoryToString(this.inventory));
+                case "I":System.out.printf("Current inventory: %s\n", InventoryDisplay.inventoryToString(this.inventory, "and"));
                 undecided = false;
                 case "E": System.out.println("You leave the check status menu.");undecided = false;
                 default:System.out.println("Please enter a valid value\n");
@@ -75,7 +93,13 @@ public class Player{
 
     // Attack any enemies, probabilities determine the likelihood of successful and critical attacks
     private int SwordAttack() {
-        int hitChance = rand.nextInt(100);
+        int hitChance;
+        if (isSober) {
+            hitChance = rand.nextInt(100);
+        }
+        else{
+            hitChance = rand.nextInt(80) + 20;
+        }
         if (enemy) {
             int crit = 0;
             if (hitChance <= 10) {
@@ -84,7 +108,11 @@ public class Player{
             } else if (hitChance < 80) {
                 crit = this.attackDamage;
                 System.out.printf("You hit the enemy for %d damage!\n", this.attackDamage);
-            } else {
+            }else if (hitChance > 95 && !isSober){
+                this.health -= 30;
+                System.out.println("Ouch! You're so drunk that you stabbed yourself in the face! -30 health!");
+            }
+            else {
                 System.out.println("You missed the enemy!\n");
             }
             return crit;
@@ -94,12 +122,22 @@ public class Player{
         }
     }
 
+    private HashMap<String, Integer> removeItemFromInventory(String itemForRemove)
+    {
+        this.inventory.put(itemForRemove, this.inventory.get(itemForRemove) -1);
+        if (this.inventory.get(itemForRemove) == 0)
+        {
+            this.inventory.remove(itemForRemove);
+        }
+        return this.inventory;
+    }
+
     // The responses for the players using their items
     public void useItem()
     {
         // Display inventory available items
         undecided = true;
-        System.out.println("You can use: " + InventoryDisplay.inventoryToString(this.inventory) + " (or exit 'E')");
+        System.out.println("You can use: " + InventoryDisplay.inventoryToString(this.inventory, "or") + " (or exit 'E')");
         Scanner useAnItem = new Scanner(System.in);
         String choice = useAnItem.nextLine();
 
@@ -133,11 +171,7 @@ public class Player{
                         undecided = false;
 
                         // Remove one health potion from the hashmap or remove from inventory entirely
-                        this.inventory.put("healing potion (HP)", this.inventory.get("healing potion (HP)") -1);
-                        if (this.inventory.get("healing potion (HP)") == 0)
-                        {
-                            this.inventory.remove("healing potion (HP)");
-                        }
+                        this.inventory = removeItemFromInventory("healing potion (HP)");
                         break;
                     }
                     else{
@@ -157,6 +191,21 @@ public class Player{
                         undecided = false;
                         break;
                     }
+                case "B":
+                    this.item = "B";
+                    if(this.inventory.containsKey("beer (B)")) {
+                        System.out.println("You neck the whole beer in one gulp!\n");
+                        try {
+                            Thread.sleep(2000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        System.out.println("You're feeling drunk! You feel unable to attack as confidently!");
+                        isSober = false;
+                        this.inventory = removeItemFromInventory("beer (B)");
+                    }
+                    undecided = false;
+                    break;
                 case "E":
                     // Leave the menu
                     System.out.println("You leave the item select menu");
