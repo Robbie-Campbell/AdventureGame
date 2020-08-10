@@ -14,7 +14,7 @@ public class Player{
 
     // The level up variables
     int currentXP = 0;
-    int nextLevel = 30;
+    int nextLevel = 50;
     private int level = 1;
 
     // Character traits
@@ -26,6 +26,7 @@ public class Player{
     public int health = 100;
     public String character;
     private int attackDamage = 10;
+
     public HashMap<String, Integer> inventory = new HashMap<>();
 
     // Sets which item is in use
@@ -80,12 +81,12 @@ public class Player{
             Scanner check = new Scanner(System.in);
             String checktype = check.nextLine();
             switch (checktype) {
-                case "H":System.out.printf("Current health: %d/%d\n", this.health, this.maxHealth); undecided = false;
-                case "L":System.out.printf("Current level: %d\n", this.level); undecided = false;
-                case "AD":System.out.printf("Current attack damage: %d\n", this.attackDamage);  undecided = false;
+                case "H":System.out.printf("Current health: %d/%d\n", this.health, this.maxHealth); undecided = false; break;
+                case "L":System.out.printf("Current level: %d\n", this.level); undecided = false; break;
+                case "AD":System.out.printf("Current attack damage: %d\n", this.attackDamage);  undecided = false; break;
                 case "I":System.out.printf("Current inventory: %s\n", InventoryDisplay.inventoryToString(this.inventory, "and"));
-                undecided = false;
-                case "E": System.out.println("You leave the check status menu.");undecided = false;
+                undecided = false; break;
+                case "E": System.out.println("You leave the check status menu.");undecided = false; break;
                 default:System.out.println("Please enter a valid value\n");
             }
         }

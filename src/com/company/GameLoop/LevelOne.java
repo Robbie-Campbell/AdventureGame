@@ -41,14 +41,14 @@ public class LevelOne {
                 // I'm not quite sure how to implement this yet.
                 PeasantEnemy peasant1 = new PeasantEnemy(30);
                 PeasantEnemy peasant2 = new PeasantEnemy(20);
-                System.out.printf("Peasant %s: 'Oi! You're that bandit from Glarbog aren't you! There's a pretty price on your head! " +
+                System.out.printf("%s: 'Oi! You're that bandit from Glarbog aren't you! There's a pretty price on your head! " +
                         "wouldn't mind claiming it for meself!'\n", peasant1.nameChoice);
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                System.out.printf("Oh no! Peasant %s and Peasant %s want to kick the shit out of you!\n", peasant1.nameChoice,
+                System.out.printf("Oh no! %s and %s want to kick the shit out of you!\n", peasant1.nameChoice,
                         peasant2.nameChoice);
                 peasant1.fight();
                 try {
@@ -56,7 +56,7 @@ public class LevelOne {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                System.out.printf("Peasant %s was watching from the sidelines, but he's ready to attack now!", peasant2.nameChoice);
+                System.out.printf("%s was watching from the sidelines, but he's ready to attack now!", peasant2.nameChoice);
                 peasant2.fight();
             }
         }
@@ -102,15 +102,15 @@ public class LevelOne {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        System.out.println("A drunken peasant bumbles over to you...");
+                        // Instigate a fight.
+                        PeasantEnemy peasant1 = new PeasantEnemy(20);
+                        System.out.printf("A drunken %s bumbles over to you...", peasant1.enemyType);
                         try {
                             Thread.sleep(2000);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        // Instigate a fight.
-                        PeasantEnemy peasant1 = new PeasantEnemy(20);
-                        System.out.printf("Peasant %s: 'Are you looking at me, funny %s! I'll teach you a lesson!'\n\n",peasant1.nameChoice, player1.genderChildStatus);
+                        System.out.printf("%s: 'Are you looking at me, funny %s! I'll teach you a lesson!'\n\n",peasant1.nameChoice, player1.genderChildStatus);
                         peasant1.fight();
                         hasSearched = true;
                         break;
