@@ -4,7 +4,7 @@ public class PeasantEnemy extends EnemyAttributes{
     public PeasantEnemy(int health) {
         super(health);
         this.enemyType = "Peasant";
-        this.nameChoice = this.enemyType + this.nameChoice;
+        this.nameChoice = this.enemyType + " " + this.nameChoice;
         this.attackDamage = 5;
         this.XPgain = 50;
         this.selfHarmHit = this.health;
