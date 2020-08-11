@@ -2,12 +2,17 @@ package com.company.Assets;
 
 
 import com.company.KeyFunctions.InventoryDisplay;
+import com.company.KeyFunctions.SleepFunction;
+
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
 
 // Stores all player information
 public class Player{
+
+    // Decided if enemy can attack (regarding shield)
+    boolean isBlocked = false;
 
     // The random option used for all gameplay options
     private Random rand = new Random();
@@ -79,8 +84,8 @@ public class Player{
         System.out.println("Check status of: H - health, L - level, AD - attack damage, I - inventory, (E - exit)");
         while (undecided) {
             Scanner check = new Scanner(System.in);
-            String checktype = check.nextLine();
-            switch (checktype) {
+            String checkType = check.nextLine();
+            switch (checkType) {
                 case "H":System.out.printf("Current health: %d/%d\n", this.health, this.maxHealth); undecided = false; break;
                 case "L":System.out.printf("Current level: %d\n", this.level); undecided = false; break;
                 case "AD":System.out.printf("Current attack damage: %d\n", this.attackDamage);  undecided = false; break;
@@ -109,7 +114,7 @@ public class Player{
             } else if (hitChance < 80) {
                 crit = this.attackDamage;
                 System.out.printf("You hit the enemy for %d damage!\n", this.attackDamage);
-            }else if (hitChance > 95 && !isSober){
+            }else if (hitChance > 90 && !isSober){
                 this.health -= 30;
                 System.out.println("Ouch! You're so drunk that you stabbed yourself in the face! -30 health!");
             }
@@ -120,6 +125,38 @@ public class Player{
         } else {
             System.out.println("You swing your sword aimlessly at the air.");
             return 0;
+        }
+    }
+
+    // Attack any enemies, probabilities determine the likelihood of successful and critical attacks
+    void Shield(EnemyAttributes enemyInstance) {
+        int blockChance;
+        isBlocked = true;
+        if (isSober) {
+            blockChance = rand.nextInt(100);
+        }
+        else{
+            blockChance = rand.nextInt(90) + 10;
+        }
+        if (enemy) {
+            if (blockChance <= 20) {
+                enemyInstance.attackDamage -= (int) Math.round(enemyInstance.attackDamage * 0.2);
+                System.out.printf("You parried the enemies attack!! their new AD is %d!\n", enemyInstance.attackDamage );
+            } else if (blockChance < 70) {
+                System.out.println("You blocked the enemies attack!\n");
+            } else if (blockChance > 90 && !isSober)
+            {
+                this.health -= enemyInstance.attackDamage * 2;
+                System.out.printf("%s smashes through your drunken defence for a critical!! Dealing %d damage!\n",
+                        enemyInstance.nameChoice, enemyInstance.attackDamage * 2);
+            }
+            else {
+                this.health -= enemyInstance.attackDamage;
+                System.out.printf("%s broke through your defence!! Dealing %d damage!\n", enemyInstance.nameChoice,
+                        enemyInstance.attackDamage);
+            }
+        } else {
+            System.out.println("You swing your sword aimlessly at the air.");
         }
     }
 
@@ -183,7 +220,6 @@ public class Player{
                 case "SH":
                     // Block an enemy attack... haven't really decided what to do here yet
                     if (enemy) {
-                        System.out.println("You use a shield.");
                         this.item = "SH";
                         undecided = false;
                         break;
@@ -213,12 +249,10 @@ public class Player{
                     undecided = false;
                     break;
                 default: System.out.println("Please select a valid option");
+                undecided = false;
+                break;
             }
         }
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        SleepFunction.sleep();
     }
 }
