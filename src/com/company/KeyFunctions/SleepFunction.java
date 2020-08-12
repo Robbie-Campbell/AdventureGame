@@ -9,4 +9,12 @@ public class SleepFunction {
             e.printStackTrace();
         }
     }
+
+    public static void levelEnd(){
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }
