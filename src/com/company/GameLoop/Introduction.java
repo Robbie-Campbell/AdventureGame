@@ -17,8 +17,10 @@ public class Introduction {
         String genderInput = enterGender.nextLine();
         player1 = new Player(nameInput, genderInput);
         String gameAnnouncement = String.format("%s, Welcome to the game! You have %d/%d health, you have: %s in your" +
-                " inventory and no armour equipped \nGood luck!\n", player1.character, player1.health, player1.maxHealth,
-                InventoryDisplay.inventoryToString(player1.inventory, "and", true));
+                " inventory, a %s as weapons, and no armour equipped \nGood luck!\n", player1.character, player1.health,
+                player1.maxHealth,
+                InventoryDisplay.inventoryToString(player1.items, "and", "", true),
+                InventoryDisplay.inventoryToString(player1.weapons, "and", "damage)", false));
         System.out.println(gameAnnouncement);
         SleepFunction.sleep();
     }

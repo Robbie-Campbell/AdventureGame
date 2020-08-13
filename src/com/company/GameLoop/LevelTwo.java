@@ -14,8 +14,8 @@ public class LevelTwo
     {
         System.out.printf("%s: '%s, luckily for you i want to help you!', %s winks at you\n", garth.character, player1.character, garth.character);
         SleepFunction.sleep();
-        Brute barBrute = new Brute(40);
-        System.out.printf("%s: 'I heard your conversation boys, get ready to get battered!'\n", barBrute.nameChoice);
+        Brute barBrute = new Brute(40, 1);
+        System.out.printf("%s: 'I heard your conversation boys, get ready to get battered!'\n", barBrute.nameChoices);
         SleepFunction.sleep();
         System.out.printf("%s: 'I'll help you %s!\n", garth.character, player1.character);
         barBrute.fight();

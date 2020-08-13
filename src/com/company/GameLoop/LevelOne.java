@@ -42,24 +42,19 @@ public class LevelOne
 
                 // Instigate a fight with the 2 peasants, with further versions the 2 peasants will fight simultaniously,
                 // I'm not quite sure how to implement this yet.
-                Peasant peasant1 = new Peasant(30);
-                Peasant peasant2 = new Peasant(20);
+                Peasant peasants = new Peasant(30, 2);
                 System.out.printf("%s: 'Oi! You're that bandit from Glarbog aren't you! There's a pretty price on your head! " +
-                        "wouldn't mind claiming it for meself!'\n", peasant1.nameChoice);
+                        "wouldn't mind claiming it for meself!'\n", peasants.nameChoices.get(0));
                 SleepFunction.sleep();
-                System.out.printf("Oh no! %s and %s want to kick the shit out of you!\n", peasant1.nameChoice,
-                        peasant2.nameChoice);
-                peasant1.fight();
-                SleepFunction.sleep();
-                System.out.printf("%s was watching from the sidelines, but he's ready to attack now!", peasant2.nameChoice);
-                peasant2.fight();
+                System.out.printf("Oh no! %s and %s want to kick the shit out of you!\n", peasants.nameChoices.get(0),
+                        peasants.nameChoices.get(1));
+                peasants.fight();
             }
         }
 
     // The main game loop
     public void startGame()
     {
-        /*
         boolean hasSearched = false;
         boolean unanswered = true;
         String setting = String.format("%s, You are a bandit in the land of Glarbog, exiled from your home, you start your journey \n" +
@@ -97,10 +92,10 @@ public class LevelOne
                         SleepFunction.sleep();
 
                         // Instigate a fight.
-                        Peasant peasant1 = new Peasant(20);
+                        Peasant peasant1 = new Peasant(20, 1);
                         System.out.printf("A drunken %s bumbles over to you...\n", peasant1.enemyType);
                         SleepFunction.sleep();
-                        System.out.printf("%s: 'Are you looking at me, funny %s! I'll teach you a lesson!'\n\n",peasant1.nameChoice, player1.genderChildStatus);
+                        System.out.printf("%s: 'Are you looking at me, funny %s! I'll teach you a lesson!'\n\n",peasant1.nameChoices, player1.genderChildStatus);
                         SleepFunction.sleep();
                         peasant1.fight();
                         hasSearched = true;
@@ -111,7 +106,7 @@ public class LevelOne
                 default:
                     System.out.println("Please enter a valid option.");
             }
-        } */
+        }
         // First meeting with your brother garth
         System.out.printf("Your search takes you to the inn where you find your brother, %s...\n", garth.character);
         SleepFunction.sleep();
@@ -119,7 +114,7 @@ public class LevelOne
         garth.exists = true;
         SleepFunction.sleep();
         System.out.println("{{1 Beer has been added to your inventory}}\n");
-        player1.inventory.put("beer (B)", 1);
+        player1.items.put("beer (B)", 1);
         SleepFunction.sleep();
         while (undecided)
         {
@@ -137,12 +132,12 @@ public class LevelOne
                     if (player1.item.equals("B")) {
                         System.out.printf("%s: 'Cheers to you %s! Now, let's get down to business...'\n", garth.character, player1.character);
                         SleepFunction.sleep();
-                        Peasant barPeasant = new Peasant(20);
-                        System.out.printf("%s: 'Wait, you're %s! Thankyou for the beer earlier!'\n", barPeasant.nameChoice, garth.character);
+                        Peasant barPeasant = new Peasant(20, 1);
+                        System.out.printf("%s: 'Wait, you're %s! Thankyou for the beer earlier!'\n", barPeasant.nameChoices, garth.character);
                         SleepFunction.sleep();
                         System.out.printf("%s: 'You're welcome, friend!'\n", garth.character);
                         SleepFunction.sleep();
-                        System.out.printf("%s: 'Maybe you and your friend could put this helmet to better use...\n", barPeasant.nameChoice);
+                        System.out.printf("%s: 'Maybe you and your friend could put this helmet to better use...\n", barPeasant.nameChoices);
                         player1.defence -= 0.1;
                         SleepFunction.sleep();
                         player1.armour.put("Leather helmet", 10);

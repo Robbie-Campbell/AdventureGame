@@ -14,7 +14,6 @@ public class Player
 
     // Ally helper
     public boolean exists = false;
-
     public double defence = 1;
 
     // Decided if enemy can attack (regarding shield)
@@ -37,9 +36,10 @@ public class Player
     public int health = 50;
     public String character;
     private int attackDamage = 10;
-    public HashMap<String, Integer> armour = new HashMap<>();
 
-    public HashMap<String, Integer> inventory = new HashMap<>();
+    public HashMap<String, Integer> weapons = new HashMap<>();
+    public HashMap<String, Integer> armour = new HashMap<>();
+    public HashMap<String, Integer> items = new HashMap<>();
 
     // Sets which item is in use
     public String item = "";
@@ -50,9 +50,9 @@ public class Player
     public Player(String name, String gender)
     {
         this.character = name;
-        this.inventory.put("Broken Sword (SW)", 1);
-        this.inventory.put("Healing Potion (HP)", 1);
-        this.inventory.put("Leather Shield (SH)", 1 );
+        this.weapons.put("a Broken Sword (SW)", 5);
+        this.weapons.put("Leather Shield {{Parry}} (SH)", 0);
+        this.items.put("Healing Potion (HP)", 1);
 
         // Set gender status
         switch(gender)
@@ -111,21 +111,28 @@ public class Player
     public void checkStatus()
     {
         undecided = true;
-        System.out.println("Check status of: H - health, L - level, AD - attack damage, I - inventory, A - Armour (E - exit)");
+        System.out.println("Check status of: H - health\nL - level\nAD - attack damage\nI - items\nA - Armour\nW - Weapons\n(E - exit)");
         while (undecided)
         {
             Scanner check = new Scanner(System.in);
             String checkType = check.nextLine();
+            String searchOption;
             switch (checkType)
             {
                 case "H":System.out.printf("Current health: %d/%d\n", this.health, this.maxHealth); undecided = false; break;
                 case "L":System.out.printf("Current level: %d\n", this.level); undecided = false; break;
                 case "AD":System.out.printf("Current attack damage: %d\n", this.attackDamage);  undecided = false; break;
-                case "I":System.out.printf("Current inventory: %s\n", InventoryDisplay.inventoryToString(this.inventory, "and", true));
+                case "I":System.out.printf("Current items: %s\n", InventoryDisplay.inventoryToString(this.items, "and", "", true));
                 undecided = false; break;
                 case "A":
-                    String searchOption = this.armour.isEmpty() ? "No armour equipped" : String.format("Armour: %s",
-                            InventoryDisplay.inventoryToString(this.armour, "and", false));
+                    searchOption = this.armour.isEmpty() ? "No armour equipped" : String.format("Armour: %s",
+                            InventoryDisplay.inventoryToString(this.armour, "and", "% less damage received", false));
+                    System.out.println(searchOption);
+                    undecided = false;
+                    break;
+                case "W":
+                    searchOption = this.weapons.isEmpty() ? "No weapons available" : String.format("Weapons: %s",
+                            InventoryDisplay.inventoryToString(this.weapons, "and", " damage", false));
                     System.out.println(searchOption);
                     undecided = false;
                     break;
@@ -207,12 +214,12 @@ public class Player
             {
                 this.health -= enemyInstance.attackDamage * 2;
                 System.out.printf("%s smashes through your drunken defence for a critical!! Dealing %d damage!\n",
-                        enemyInstance.nameChoice, enemyInstance.attackDamage * 2);
+                        enemyInstance.nameChoices, enemyInstance.attackDamage * 2);
             }
             else
             {
                 this.health -= enemyInstance.attackDamage;
-                System.out.printf("%s broke through your defence!! Dealing %d damage!\n", enemyInstance.nameChoice,
+                System.out.printf("%s broke through your defence!! Dealing %d damage!\n", enemyInstance.nameChoices,
                         enemyInstance.attackDamage);
             }
         }
@@ -222,19 +229,19 @@ public class Player
         }
     }
 
-    private HashMap<String, Integer> removeItemFromInventory(String itemForRemove)
+    private HashMap<String, Integer> removeItemFromItems(String itemForRemove)
     {
-        this.inventory.put(itemForRemove, this.inventory.get(itemForRemove) -1);
-        if (this.inventory.get(itemForRemove) == 0)
+        this.items.put(itemForRemove, this.items.get(itemForRemove) -1);
+        if (this.items.get(itemForRemove) == 0)
         {
-            this.inventory.remove(itemForRemove);
+            this.items.remove(itemForRemove);
         }
-        return this.inventory;
+        return this.items;
     }
 
     private void getDrunk()
     {
-        if(this.inventory.containsKey("beer (B)"))
+        if(this.items.containsKey("beer (B)"))
         {
             System.out.println("You neck the whole beer in one gulp!\n");
             try
@@ -245,16 +252,19 @@ public class Player
             }
             System.out.println("You're feeling drunk! You feel unable to attack as confidently!");
             isSober = false;
-            this.inventory = removeItemFromInventory("beer (B)");
+            this.items = removeItemFromItems("beer (B)");
         }
     }
 
     // The responses for the players using their items
     public void useItem()
     {
-        // Display inventory available items
+        // Display items available items
         undecided = true;
-        System.out.println("You can use: " + InventoryDisplay.inventoryToString(this.inventory, "or", true) + " (or exit 'E')");
+        System.out.println("You can use: "
+                + InventoryDisplay.inventoryToString(this.items, "", "\n", true)
+                + InventoryDisplay.inventoryToString(this.weapons, "or", " damage)", false)
+                + " (or exit 'E')");
         Scanner useAnItem = new Scanner(System.in);
         String choice = useAnItem.nextLine();
 
@@ -273,7 +283,7 @@ public class Player
                     break;
                 case "HP":
                     // Health potion options
-                    if(this.inventory.containsKey("Healing Potion (HP)"))
+                    if(this.items.containsKey("Healing Potion (HP)"))
                     {
                         if (this.health == this.maxHealth)
                         {
@@ -292,13 +302,13 @@ public class Player
                         System.out.printf("Your health has is now %d/%d\n", this.health, this.maxHealth);
                         undecided = false;
 
-                        // Remove one health potion from the hashmap or remove from inventory entirely
-                        this.inventory = removeItemFromInventory("healing potion (HP)");
+                        // Remove one health potion from the HashMap or remove from items entirely
+                        this.items = removeItemFromItems("Healing Potion (HP)");
                         break;
                     }
                     else
                     {
-                        System.out.println("No health potion in inventory");
+                        System.out.println("No health potion in items");
                         undecided = false;
                         break;
                     }
