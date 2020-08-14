@@ -3,6 +3,8 @@ package com.company.Assets;
 import static com.company.GameLoop.Introduction.player1;
 
 public class Peasant extends EnemyAttributes{
+
+    // The peasant enemy type, fairly low damage low reward type
     public Peasant(int health, int noOfEnemies) {
         super(health, noOfEnemies);
         this.enemyType = "Peasant";
