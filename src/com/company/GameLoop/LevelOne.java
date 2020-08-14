@@ -52,7 +52,7 @@ public class LevelOne
             }
         }
 
-    // The main game loop
+    // Level one of the game
     public void startGame()
     {
         boolean hasSearched = false;
@@ -95,7 +95,7 @@ public class LevelOne
                         Peasant peasant1 = new Peasant(20, 1);
                         System.out.printf("A drunken %s bumbles over to you...\n", peasant1.enemyType);
                         SleepFunction.sleep();
-                        System.out.printf("%s: 'Are you looking at me, funny %s! I'll teach you a lesson!'\n\n",peasant1.nameChoices, player1.genderChildStatus);
+                        System.out.printf("%s: 'Are you looking at me, funny %s! I'll teach you a lesson!'\n\n",peasant1.nameChoices.get(0), player1.genderChildStatus);
                         SleepFunction.sleep();
                         peasant1.fight();
                         hasSearched = true;
@@ -133,11 +133,11 @@ public class LevelOne
                         System.out.printf("%s: 'Cheers to you %s! Now, let's get down to business...'\n", garth.character, player1.character);
                         SleepFunction.sleep();
                         Peasant barPeasant = new Peasant(20, 1);
-                        System.out.printf("%s: 'Wait, you're %s! Thankyou for the beer earlier!'\n", barPeasant.nameChoices, garth.character);
+                        System.out.printf("%s: 'Wait, you're %s! Thankyou for the beer earlier!'\n", barPeasant.nameChoices.get(0), garth.character);
                         SleepFunction.sleep();
                         System.out.printf("%s: 'You're welcome, friend!'\n", garth.character);
                         SleepFunction.sleep();
-                        System.out.printf("%s: 'Maybe you and your friend could put this helmet to better use...\n", barPeasant.nameChoices);
+                        System.out.printf("%s: 'Maybe you and your friend could put this helmet to better use...\n", barPeasant.nameChoices.get(0));
                         player1.defence -= 0.1;
                         SleepFunction.sleep();
                         player1.armour.put("Leather helmet", 10);

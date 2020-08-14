@@ -13,9 +13,8 @@ public class Ally extends Player
         super(name, gender);
         this.damage = 5;
         this.maxHealth = 40;
-        this.health = 0;
+        this.health = 40;
         this.nextLevel = 100;
-
     }
 
     // Give the ability to revive an ally after their death by using a health potion.
@@ -25,9 +24,10 @@ public class Ally extends Player
             System.out.printf("Oh no %s is critically wounded! Press F to use a health potion to save them!\n", this.character);
             Scanner saveAlly = new Scanner(System.in);
             String revive = saveAlly.nextLine();
-            if (revive.equals("F"))
+            if (Introduction.player1.items.containsKey("Healing Potion (HP)"))
             {
-                if (Introduction.player1.items.containsKey("Healing Potion (HP)")) {
+                if (revive.equals("F"))
+                {
                     Introduction.player1.items = removeItemFromHashMap("Healing Potion (HP)");
                     this.health = (int) (this.maxHealth * 0.25);
                     System.out.printf("%s has been revived back to %d/%d health\n", this.character, this.health, this.maxHealth);
@@ -35,8 +35,7 @@ public class Ally extends Player
             }
             else
             {
-                Introduction.player1.health = 0;
-                Introduction.player1.setGameOver();
+                this.setGameOver();
             }
         }
     }
