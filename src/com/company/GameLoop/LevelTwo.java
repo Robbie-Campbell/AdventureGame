@@ -5,6 +5,8 @@ import com.company.Assets.Ally;
 import com.company.Assets.Player;
 import com.company.KeyFunctions.SleepFunction;
 
+
+// At present this is just a placeholder
 public class LevelTwo
 {
     private Player player1 = Introduction.player1;

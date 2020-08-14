@@ -154,12 +154,13 @@ public class LevelOne
                     System.out.printf("%s overemphasises a ridiculous sigh, he looks as though he is ready to cry,\n" +
                             "how cruel of you.", garth.character);
                     SleepFunction.sleep();
-                    System.out.println("Anyways, let's get down to business");
+                    System.out.println("Anyways, let's get down to business...\n\n");
                     undecided = false;
                     break;
                 default:
                     System.out.println("Please pick a valid option");
             }
+            SleepFunction.sleep();
             System.out.printf("%s: '%s, I know the truth about your past... I know that you are a bandit.'\n", garth.character, player1.character);
             SleepFunction.sleep();
             System.out.println("End of part one");

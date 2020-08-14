@@ -3,14 +3,15 @@ package com.company.KeyFunctions;
 import java.util.HashMap;
 
 public class InventoryDisplay {
-    // Converts The items in the inventory into a readable format
-    public static String inventoryToString(HashMap<String, Integer> arr, String connectorType, String outputType, Boolean inventory){
+    // Converts The items in the inventory into a readable format, uses the hashmap, and/ or, what the HashMap int represents
+    // And whether it is the item HashMap
+    public static String inventoryToString(HashMap<String, Integer> arr, String connectorType, String outputType, Boolean items){
         StringBuilder returnValue = new StringBuilder();
         String punctuation = "";
         int index = 0;
         for (String i : arr.keySet()) {
             index++;
-            if (inventory) {
+            if (items) {
                 String item = String.format("%d %s%s", arr.get(i), i, punctuation);
                 returnValue.append(item);
                 punctuation = ",";

@@ -37,6 +37,7 @@ public class Player
     public String character;
     private int attackDamage = 10;
 
+    // All different inventory types.
     public HashMap<String, Integer> weapons = new HashMap<>();
     public HashMap<String, Integer> armour = new HashMap<>();
     public HashMap<String, Integer> items = new HashMap<>();
@@ -47,6 +48,8 @@ public class Player
     // Conditional statements
     boolean enemy = false;
     private boolean undecided = true;
+
+    // Set the players inventory load and gender
     public Player(String name, String gender)
     {
         this.character = name;
@@ -71,7 +74,8 @@ public class Player
         }
     }
 
-    // The function which levels up the player character
+    // The function which levels up the player character, resets the player XP back to 0 plus the leftover amount from
+    // last level up, if the player gains multiple levels this is accounted for.
     void levelUp()
     {
         if (currentXP >= nextLevel)
@@ -97,7 +101,7 @@ public class Player
         }
     }
 
-    // Exit the program at 0 health
+    // Exit the program at 0 health (or death of Garth function defined in Ally class)
      void setGameOver()
      {
         if (health <= 0)
@@ -107,11 +111,11 @@ public class Player
         }
      }
 
-    // Allows to player to check their current stats
+    // Allows to player to check their current stats, inventory etc.
     public void checkStatus()
     {
         undecided = true;
-        System.out.println("Check status of: H - health\nL - level\nAD - attack damage\nI - items\nA - Armour\nW - Weapons\n(E - exit)");
+        System.out.println("Check status of: H - Health\nL - Level\nAD - Attack damage\nI - Items\nA - Armour\nW - Weapons\n(E - exit)");
         while (undecided)
         {
             Scanner check = new Scanner(System.in);
@@ -122,8 +126,12 @@ public class Player
                 case "H":System.out.printf("Current health: %d/%d\n", this.health, this.maxHealth); undecided = false; break;
                 case "L":System.out.printf("Current level: %d\n", this.level); undecided = false; break;
                 case "AD":System.out.printf("Current attack damage: %d\n", this.attackDamage);  undecided = false; break;
-                case "I":System.out.printf("Current items: %s\n", InventoryDisplay.inventoryToString(this.items, "and", "", true));
-                undecided = false; break;
+
+                // For each of the inventory checks an inline condition is satisfied to make sure that the HashMap isn't
+                // Empty.
+                case "I":searchOption = this.items.isEmpty() ? "No items in inventory" : String.format("Items: %s",
+                        InventoryDisplay.inventoryToString(this.items, "and", "", false));
+                    System.out.println(searchOption);
                 case "A":
                     searchOption = this.armour.isEmpty() ? "No armour equipped" : String.format("Armour: %s",
                             InventoryDisplay.inventoryToString(this.armour, "and", "% less damage received", false));
@@ -143,10 +151,13 @@ public class Player
         }
     }
 
-    // Attack any enemies, probabilities determine the likelihood of successful and critical attacks
+    // Attack any enemies, probabilities determine the likelihood of successful and critical attacks, with further
+    // versions the complexity of attacks will be improved.
     private int SwordAttack()
     {
         int hitChance;
+
+        // The isSober bool makes the hit probability much less likely.
         if (isSober)
         {
             hitChance = rand.nextInt(100);
@@ -168,6 +179,8 @@ public class Player
                 crit = this.attackDamage;
                 System.out.printf("You hit the enemy for %d damage!\n", this.attackDamage);
             }
+
+            // Option is only available with the drunk status effect.
             else if (hitChance > 90 && !isSober)
             {
                 this.health -= 30;
@@ -179,6 +192,8 @@ public class Player
             }
             return crit;
         }
+
+        // Condition for if there is no enemy in sight, basically a joke response.
         else
         {
             System.out.println("You swing your sword aimlessly at the air.");
@@ -186,11 +201,14 @@ public class Player
         }
     }
 
-    // Attack any enemies, probabilities determine the likelihood of successful and critical attacks
+    // Use the shield against the enemies, successful parries will decrease the enemies attack damage for the rest of
+    // the fight. Possible fiddling with the probabilities in future as the reward may not be worth the risk of use.
     void Shield(EnemyAttributes enemyInstance)
     {
         int blockChance;
         isBlocked = true;
+
+        // The isSober bool makes the block probability slightly less likely.
         if (isSober)
         {
             blockChance = rand.nextInt(100);
@@ -210,6 +228,8 @@ public class Player
             {
                 System.out.println("You blocked the enemies attack!\n");
             }
+
+            // Option is only available with the drunk status effect.
             else if (blockChance > 90 && !isSober)
             {
                 this.health -= enemyInstance.attackDamage * 2;
@@ -223,13 +243,16 @@ public class Player
                         enemyInstance.attackDamage);
             }
         }
+
+        // Condition for if there is no enemy in sight, basically a joke response.
         else
         {
             System.out.println("You swing your sword aimlessly at the air.");
         }
     }
 
-    private HashMap<String, Integer> removeItemFromItems(String itemForRemove)
+    // A function which removes a selected items from any of the HashMaps (and empties the HashMap when necessary).
+    HashMap<String, Integer> removeItemFromHashMap(String itemForRemove)
     {
         this.items.put(itemForRemove, this.items.get(itemForRemove) -1);
         if (this.items.get(itemForRemove) == 0)
@@ -239,6 +262,7 @@ public class Player
         return this.items;
     }
 
+    // Adds the drunk status effect and removes a beer from inventory.
     private void getDrunk()
     {
         if(this.items.containsKey("beer (B)"))
@@ -252,7 +276,7 @@ public class Player
             }
             System.out.println("You're feeling drunk! You feel unable to attack as confidently!");
             isSober = false;
-            this.items = removeItemFromItems("beer (B)");
+            this.items = removeItemFromHashMap("beer (B)");
         }
     }
 
@@ -293,7 +317,7 @@ public class Player
                         }
                         if (this.health + 10 < this.maxHealth)
                         {
-                            this.health += 10;
+                            this.health += 20;
                         }
                         else
                         {
@@ -303,9 +327,11 @@ public class Player
                         undecided = false;
 
                         // Remove one health potion from the HashMap or remove from items entirely
-                        this.items = removeItemFromItems("Healing Potion (HP)");
+                        this.items = removeItemFromHashMap("Healing Potion (HP)");
                         break;
                     }
+
+                    // Illegal arg check
                     else
                     {
                         System.out.println("No health potion in items");
@@ -319,13 +345,17 @@ public class Player
                         this.item = "SH";
                         undecided = false;
                         break;
-                    } else
+                    }
+                    else
                     {
+                        // A joke response if no enemy is present
                         System.out.println("You raise your shield to the sky in a confused manner.");
                         undecided = false;
                         break;
                     }
                 case "B":
+
+                    // The use a beer option
                     this.item = "B";
                     this.getDrunk();
                     undecided = false;
