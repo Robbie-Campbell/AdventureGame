@@ -1,4 +1,4 @@
-package com.company.GameLoop;
+package com.company.Levels;
 
 import com.company.Assets.Ally;
 import com.company.Assets.Player;
@@ -12,11 +12,11 @@ public class LevelOne
 {
 
     // Reintroduce the player object
-    private Player player1 = Introduction.player1;
+    private final Player player1 = Introduction.player1;
     public static Ally garth = new Ally("Garth", "M");
     private boolean undecided = true;
     private boolean hasTalked = false;
-    private String constantChoices = "C - Check current status\nU - Use item";
+    public static String constantChoices = "C - Check current status\nU - Use item";
     // The option for speaking to the villager further into the story
     private void spokeToVillagerOption()
     {
@@ -58,7 +58,7 @@ public class LevelOne
         boolean hasSearched = false;
         boolean unanswered = true;
         String setting = String.format("%s, You are a bandit in the land of Glarbog, exiled from your home, you start your journey \n" +
-                "You are in the town outskirts and you are looking for your brother, %s\n", player1.character, garth.character);
+                "You are in the outskirts of Bogbottom city and you are looking for your brother, %s\n", player1.character, garth.character);
         while (unanswered)
         {
             System.out.println(setting);

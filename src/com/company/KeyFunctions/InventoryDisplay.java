@@ -18,7 +18,7 @@ public class InventoryDisplay {
             }
             else
             {
-                String item = String.format("%s: (%d %s", i, arr.get(i), outputType);
+                String item = String.format("%s: (%d %s)", i, arr.get(i), outputType);
                 returnValue.append(item);
             }
             if (index == arr.size()-1)

@@ -1,6 +1,6 @@
 package com.company.Assets;
 
-import static com.company.GameLoop.Introduction.player1;
+import static com.company.Levels.Introduction.player1;
 
 public class Peasant extends EnemyAttributes{
 

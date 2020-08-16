@@ -24,18 +24,18 @@ public class Player
 
     // The level up variables
     int currentXP = 0;
+    int damage;
     int nextLevel = 50;
     private int level = 1;
 
     // Character traits
     public int maxHealth = 50;
     public boolean isSober = true;
-    int damage;
     public String genderChildStatus;
     public String genderSiblingStatus;
     public int health = 50;
     public String character;
-    private int attackDamage = 10;
+    private int attackDamage = 5;
 
     // All different inventory types.
     public HashMap<String, Integer> weapons = new HashMap<>();
@@ -56,6 +56,10 @@ public class Player
         this.weapons.put("a Broken Sword (SW)", 5);
         this.weapons.put("Leather Shield {{Parry}} (SH)", 0);
         this.items.put("Healing Potion (HP)", 1);
+
+        for (int f : this.weapons.values()) {
+            this.attackDamage += f;
+        }
 
         // Set gender status
         switch(gender)
@@ -102,7 +106,7 @@ public class Player
     }
 
     // Exit the program at 0 health (or death of Garth function defined in Ally class)
-     void setGameOver()
+    public void setGameOver()
      {
         if (health <= 0)
         {
@@ -252,14 +256,14 @@ public class Player
     }
 
     // A function which removes a selected items from any of the HashMaps (and empties the HashMap when necessary).
-    HashMap<String, Integer> removeItemFromHashMap(String itemForRemove)
+    public HashMap<String, Integer> removeItemFromHashMap(String itemForRemove, HashMap<String, Integer> HMType)
     {
-        this.items.put(itemForRemove, this.items.get(itemForRemove) -1);
-        if (this.items.get(itemForRemove) == 0)
+        HMType.put(itemForRemove, HMType.get(itemForRemove) -1);
+        if (HMType.get(itemForRemove) == 0)
         {
-            this.items.remove(itemForRemove);
+            HMType.remove(itemForRemove);
         }
-        return this.items;
+        return HMType;
     }
 
     // Adds the drunk status effect and removes a beer from inventory.
@@ -276,7 +280,7 @@ public class Player
             }
             System.out.println("You're feeling drunk! You feel unable to attack as confidently!");
             isSober = false;
-            this.items = removeItemFromHashMap("beer (B)");
+            this.items = removeItemFromHashMap("beer (B)", this.items);
         }
     }
 
@@ -327,7 +331,7 @@ public class Player
                         undecided = false;
 
                         // Remove one health potion from the HashMap or remove from items entirely
-                        this.items = removeItemFromHashMap("Healing Potion (HP)");
+                        this.items = removeItemFromHashMap("Healing Potion (HP)", this.items);
                         break;
                     }
 

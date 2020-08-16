@@ -1,6 +1,6 @@
 package com.company.Assets;
 
-import com.company.GameLoop.Introduction;
+import com.company.Levels.Introduction;
 
 import java.util.Scanner;
 
@@ -28,7 +28,7 @@ public class Ally extends Player
             {
                 if (revive.equals("F"))
                 {
-                    Introduction.player1.items = removeItemFromHashMap("Healing Potion (HP)");
+                    Introduction.player1.items = removeItemFromHashMap("Healing Potion (HP)", items);
                     this.health = (int) (this.maxHealth * 0.25);
                     System.out.printf("%s has been revived back to %d/%d health\n", this.character, this.health, this.maxHealth);
                 }

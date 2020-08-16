@@ -1,7 +1,7 @@
 package com.company.Assets;
 
-import com.company.GameLoop.Introduction;
-import com.company.GameLoop.LevelOne;
+import com.company.Levels.Introduction;
+import com.company.Levels.LevelOne;
 import com.company.KeyFunctions.SleepFunction;
 import java.util.ArrayList;
 import java.util.Random;
@@ -19,6 +19,8 @@ public class EnemyAttributes {
 
     // Name and specific body part hit conditions
     private String[] bodyPart = {"arm", "leg", "neck", "belly"};
+    String normalAttack;
+    String missAttack;
     String hitArea;
     String[] name = {"Barry", "Gary", "Larry", "Geoff", "Steve", "Carl"};
 
@@ -137,12 +139,12 @@ public class EnemyAttributes {
             SleepFunction.sleep();
 
             // This is very messy and I DON'T LIKE IT, but it's a band aid
-            if (enemyType.equals("Brute")) {
+            if (enemyType.equals("Brute") || (enemyType.equals("Knight"))) {
                 this.hitArea = this.bodyPart[rand.nextInt(4)];
 
                 // Redefines variable for child classes that use this selection
-                this.attackType[1] = "grazes your " + this.hitArea;
-                this.attackType[2] = "narrowly misses your " + this.hitArea;
+                this.attackType[1] = this.normalAttack + this.hitArea;
+                this.attackType[2] = this.missAttack + this.hitArea;
 
             }
             System.out.println("What do you do?:");

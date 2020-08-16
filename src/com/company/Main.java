@@ -1,7 +1,6 @@
 package com.company;
-import com.company.GameLoop.Introduction;
-import com.company.GameLoop.LevelOne;
-import com.company.GameLoop.LevelTwo;
+import com.company.Levels.Introduction;
+import com.company.Levels.LevelTwo;
 
 // Call and run all classes
 public class Main
@@ -11,8 +10,8 @@ public class Main
     {
         Introduction welcome = new Introduction();
         welcome.introduction();
-        LevelOne play = new LevelOne();
-        play.startGame();
+        /*LevelOne play = new LevelOne();
+        play.startGame();*/
         LevelTwo secondLevel = new LevelTwo();
         secondLevel.startGame();
     }
