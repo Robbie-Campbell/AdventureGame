@@ -78,7 +78,6 @@ public class EnemyAttributes {
         // Condition for how many attacks should be executed, a similar method will be added for allies in a later version
         for (int i = 0; i < this.noOfEnemies; i++) {
             int successfulHit = rand.nextInt(100);
-            System.out.println(successfulHit);
 
             // Makes sure the enemy is alive and that they are not presently blocking with their shield
             if (this.health > 0 && !player.isBlocked)
@@ -121,7 +120,6 @@ public class EnemyAttributes {
         // The fight loop, this plays as long as the enemies health is above 0
     public void fight()
     {
-
         // If the is drunk status effect is active
         if (!player.isSober) {
             System.out.println("Oh shit, you feel too drunk to be in a fight right now!\n");
@@ -226,8 +224,9 @@ public class EnemyAttributes {
 
         // Potential player reward
         if (rand.nextInt(10) < 4) {
-            System.out.printf("%s dropped a health potion!\n", this.getAllNames());
+            System.out.printf("%s dropped a health potion!\n\n", this.getAllNames());
             player.items.put("Healing Potion (HP)", player.items.get("Healing Potion (HP)") + 1);
+            SleepFunction.sleep();
         }
 
         player.enemy = false;

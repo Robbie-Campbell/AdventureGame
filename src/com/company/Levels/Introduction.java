@@ -22,7 +22,6 @@ public class Introduction {
                 InventoryDisplay.inventoryToString(player1.items, "and", "", true),
                 InventoryDisplay.inventoryToString(player1.weapons, "and", "damage", false));
         System.out.println(gameAnnouncement);
-        SleepFunction.sleep();
     }
 
 }

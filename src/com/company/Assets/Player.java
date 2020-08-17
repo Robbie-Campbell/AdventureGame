@@ -53,7 +53,7 @@ public class Player
     public Player(String name, String gender)
     {
         this.character = name;
-        this.weapons.put("a Broken Sword (SW)", 5);
+        this.weapons.put("Broken Sword (SW)", 5);
         this.weapons.put("Leather Shield {{Parry}} (SH)", 0);
         this.items.put("Healing Potion (HP)", 1);
 
@@ -290,8 +290,8 @@ public class Player
         // Display items available items
         undecided = true;
         System.out.println("You can use: "
-                + InventoryDisplay.inventoryToString(this.items, "", "\n", true)
-                + InventoryDisplay.inventoryToString(this.weapons, "or", " damage)", false)
+                + InventoryDisplay.inventoryToString(this.items, ", ", "\n", true) + " "
+                + InventoryDisplay.inventoryToString(this.weapons, "or a", " damage)", false)
                 + " (or exit 'E')");
         Scanner useAnItem = new Scanner(System.in);
         String choice = useAnItem.nextLine();

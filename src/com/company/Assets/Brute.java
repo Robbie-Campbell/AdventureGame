@@ -8,8 +8,8 @@ public class Brute extends EnemyAttributes {
     public Brute(int health, int noOfEnemies) {
 
         super(health, noOfEnemies);
-        String normalAttack = "grazes your ";
-        String missAttack = "narrowly misses your ";
+        this.normalAttack = "grazes your ";
+        this.missAttack = "narrowly misses your ";
         this.enemyType = "Brute";
         for (int i = 0; i < noOfEnemies; i++) {
             this.nameChoices.add(this.enemyType + " " + name[rand.nextInt(6)]);

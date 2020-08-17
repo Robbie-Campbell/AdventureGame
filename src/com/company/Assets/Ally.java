@@ -21,6 +21,7 @@ public class Ally extends Player
     void gameOverState(){
         if (this.health <= 0)
         {
+            this.health = 0;
             System.out.printf("Oh no %s is critically wounded! Press F to use a health potion to save them!\n", this.character);
             Scanner saveAlly = new Scanner(System.in);
             String revive = saveAlly.nextLine();
