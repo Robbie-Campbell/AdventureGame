@@ -48,6 +48,7 @@ public class LevelOne
                 SleepFunction.sleep();
                 System.out.printf("Oh no! %s and %s want to kick the shit out of you!\n", peasants.nameChoices.get(0),
                         peasants.nameChoices.get(1));
+                SleepFunction.pressEnterToContinue();
                 peasants.fight();
             }
         }
@@ -55,6 +56,7 @@ public class LevelOne
     // Level one of the game
     public void startGame()
     {
+        SleepFunction.pressEnterToContinue();
         boolean hasSearched = false;
         boolean unanswered = true;
         String setting = String.format("%s, You are a bandit in the land of Glarbog, exiled from your home, you start your journey \n" +
@@ -88,19 +90,20 @@ public class LevelOne
                     {
                         System.out.printf("You try to look for %s but to no avail, but it seems a something is happening in" +
                                 " the middle of town...\n", garth.character);
+
                         // A couple of pauses for readability and suspense.
                         SleepFunction.sleep();
 
                         // Instigate a fight.
                         Peasant peasant1 = new Peasant(20, 1);
                         System.out.printf("A drunken %s bumbles over to you...\n", peasant1.enemyType);
-                        SleepFunction.sleep();
+                        SleepFunction.pressEnterToContinue();
                         System.out.printf("%s: 'Are you looking at me, funny %s! I'll teach you a lesson!'\n\n",peasant1.nameChoices.get(0), player1.genderChildStatus);
                         SleepFunction.sleep();
                         peasant1.fight();
                         hasSearched = true;
-                        System.out.println("You return to the town centre, proud of your victory!");
-                        SleepFunction.sleep();
+                        System.out.println("You return to the town centre, proud of your victory!\n");
+                        SleepFunction.pressEnterToContinue();
                         break;
                     }
                 default:
@@ -115,7 +118,7 @@ public class LevelOne
         SleepFunction.sleep();
         System.out.println("{{1 Beer has been added to your inventory}}\n");
         player1.items.put("beer (B)", 1);
-        SleepFunction.sleep();
+        SleepFunction.pressEnterToContinue();
         while (undecided)
         {
             System.out.printf("%s: 'Cheers to you %s!'\n(he clearly wants you to have a drink with him) \n\n", garth.character, player1.genderSiblingStatus);
@@ -142,7 +145,7 @@ public class LevelOne
                         SleepFunction.sleep();
                         player1.armour.put("Leather helmet", 10);
                         System.out.println("The Leather helmet reduces damage from all types by 10 percent.\n");
-                        SleepFunction.sleep();
+                        SleepFunction.pressEnterToContinue();
                         undecided = false;
                     }
                     else

@@ -77,12 +77,13 @@ public class LevelTwo
         SleepFunction.sleep();
         System.out.printf("%s: 'That's Grimbo's castle!, as whimsical as you would expect of Grimbo!'\n" +
                 "at the end of the road you see a large castle, set on a huge snow-topped mountain\n",garth.character);
+        SleepFunction.pressEnterToContinue();
 
     }
 
     public void startGame()
     {
-        System.out.printf("%s: '%s, luckily for you i want to help you!', %s winks at you\n", garth.character, player1.character, garth.character);
+        System.out.printf("%s: 'But luckily for you i want to help you!', %s winks at you\n", garth.character, garth.character);
         SleepFunction.sleep();
         Brute barBrute = new Brute(40, 1);
         System.out.printf("%s: 'Oi you two! I heard your conversation, get ready to get battered!'\n", barBrute.nameChoices.get(0));
@@ -93,15 +94,14 @@ public class LevelTwo
                 "and it has been our duty ever since the death of our father, Cameroono Baggis\n" +
                 "but you know that you will never defeat him on your own!'\n", garth.character, player1.genderSiblingStatus);
         player1.isSober = true;
-        SleepFunction.pressEnterToContinue();
+        SleepFunction.levelEnd();
         System.out.printf("%s: 'Look, lets get out of Bagbottom for now, we're still going to\n" +
                 "need some help, we should seek out a friend of mine, called Grimbo Reeves\n" +
                 "a powerful wizard, who will certainly help us on our quest!'\n\n", garth.character);
         SleepFunction.pressEnterToContinue();
         System.out.printf("You and %s flee glarbog, on the road together you reach a fork in the road...\n", garth.character);
-        SleepFunction.pressEnterToContinue();
-        SleepFunction.pressEnterToContinue();
         while (unsure) {
+            SleepFunction.sleep();
             System.out.printf("A signpost offers 2 directions, going west is a sign denoting 'wizards \n" +
                     "cove' and to the east is 'death valley'\n" +
                     "What do you do?\n%s\nW - Head to wizards cove\nD - Head to death valley\n", constantChoices);
@@ -120,11 +120,13 @@ public class LevelTwo
                 case "D":
                     unsure = false;
                     System.out.println(tricked + direction);
+                    SleepFunction.sleep();
                     wizardsCove();
                     break;
                 case "W":
                     unsure = false;
                     System.out.println(tricked + direction);
+                    SleepFunction.sleep();
                     deathValley();
                     break;
                 default:

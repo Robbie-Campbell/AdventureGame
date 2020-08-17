@@ -98,7 +98,7 @@ public class Player
                     System.out.printf("%s leveled up! %s's new level is %d, new max health is %d and " +
                             "new AD is %d!\n", this.character, this.character, this.level, this.maxHealth, this.attackDamage);
                     System.out.printf("Current XP : %dXP\n", this.currentXP);
-                    System.out.printf("Next Level XP needed : %dXP\n", this.nextLevel - this.currentXP);
+                    System.out.printf("Next Level XP needed : %dXP\n\n", this.nextLevel - this.currentXP);
                     moreThanOneLevel = false;
                 }
             }
@@ -290,7 +290,7 @@ public class Player
         // Display items available items
         undecided = true;
         System.out.println("You can use: "
-                + InventoryDisplay.inventoryToString(this.items, ", ", "\n", true) + " "
+                + InventoryDisplay.inventoryToString(this.items, ",", "\n", true)
                 + InventoryDisplay.inventoryToString(this.weapons, "or a", " damage)", false)
                 + " (or exit 'E')");
         Scanner useAnItem = new Scanner(System.in);
@@ -327,7 +327,7 @@ public class Player
                         {
                             this.health = this.maxHealth;
                         }
-                        System.out.printf("Your health has is now %d/%d\n", this.health, this.maxHealth);
+                        System.out.printf("Your health is now %d/%d\n", this.health, this.maxHealth);
                         undecided = false;
 
                         // Remove one health potion from the HashMap or remove from items entirely

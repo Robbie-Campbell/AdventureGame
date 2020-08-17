@@ -113,6 +113,7 @@ public class EnemyAttributes {
                     SleepFunction.sleep();
                 }
             }
+            SleepFunction.sleep();
         }
             player.isBlocked = false;
     }
@@ -209,8 +210,8 @@ public class EnemyAttributes {
         // With further versions a full item array will be added and selected randomly, this is a placeholder.
 
         // Checks if there is more than one enemy
-        String pluralOrNot = noOfEnemies == 1 ? String.format("%s has died!\n\n", this.getAllNames()) :
-                String.format("%s have died!\n\n", this.getAllNames());
+        String pluralOrNot = noOfEnemies == 1 ? String.format("%s has died!\n", this.getAllNames()) :
+                String.format("%s have died!\n", this.getAllNames());
         System.out.println(pluralOrNot);
         SleepFunction.sleep();
 
