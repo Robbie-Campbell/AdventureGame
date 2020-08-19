@@ -20,6 +20,7 @@ public class SleepFunction {
         }
     }
 
+    // Used for more substantial pauses in the gameplay.
     public static void pressEnterToContinue(){
         sleep();
         Scanner delay = new Scanner(System.in);

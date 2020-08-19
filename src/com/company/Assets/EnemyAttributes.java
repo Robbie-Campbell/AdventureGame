@@ -10,6 +10,7 @@ import java.util.Scanner;
 // A Peasant enemy object
 public class EnemyAttributes {
 
+    // With each enemy instance these variables are defined (allows for different power of enemies declared in the game loop)
     EnemyAttributes(int health, int noOfEnemies)
     {
         this.health = health;
@@ -19,10 +20,7 @@ public class EnemyAttributes {
 
     // Name and specific body part hit conditions
     private String[] bodyPart = {"arm", "leg", "neck", "belly"};
-    String normalAttack;
-    String missAttack;
-    String hitArea;
-    String[] name = {"Barry", "Gary", "Larry", "Geoff", "Steve", "Carl"};
+    String[] name = {"Barry", "Gary", "Larry", "Geoff", "Steve", "Carl", "Sebastien", "Rick", "Jon", "Jimbo", "Martin"};
 
     // The random option used for all gameplay options
     Random rand = new Random();
@@ -38,10 +36,13 @@ public class EnemyAttributes {
     String[] attackType;
     int selfHarmHit = 0;
 
-    // Set the enemy instance
+    // variables to be declared in child classes
     int health;
     private int maxHealth;
     int attackDamage;
+    String normalAttack;
+    String missAttack;
+    String hitArea;
     int noOfEnemies;
 
     // If there are more than one enemy, the names are appended into an array.
@@ -62,7 +63,7 @@ public class EnemyAttributes {
         return names.toString();
     }
 
-    // If garth is hit by the enemy his health is lowered
+    // If garth is hit by the enemy his health is lowered, with further versions "garth" will be replaced with ally
     private void garthHit(double damageTaken, String hitPower)
     {
         garth.health -= this.attackDamage * damageTaken;
@@ -82,6 +83,8 @@ public class EnemyAttributes {
             // Makes sure the enemy is alive and that they are not presently blocking with their shield
             if (this.health > 0 && !player.isBlocked)
             {
+
+                // Critical attack
                 if (successfulHit < 10)
                 {
                     player.health -= this.attackDamage * 2;
@@ -91,6 +94,8 @@ public class EnemyAttributes {
                         garthHit(1, "powerful attack");
                     }
                 }
+
+                // Standard attack
                 else if (successfulHit < 60)
                 {
                     player.health -= this.attackDamage;
@@ -100,6 +105,8 @@ public class EnemyAttributes {
                         garthHit(0.5, "weak attack");
                     }
                 }
+
+                // Miss
                 else if (successfulHit < 90)
                 {
                     System.out.printf("%s %s!\n", this.nameChoices.get(i), this.attackType[2]);
@@ -118,7 +125,7 @@ public class EnemyAttributes {
             player.isBlocked = false;
     }
 
-        // The fight loop, this plays as long as the enemies health is above 0
+    // The fight loop, this plays as long as the enemies health is above 0
     public void fight()
     {
         // If the is drunk status effect is active
@@ -137,15 +144,15 @@ public class EnemyAttributes {
             System.out.printf("%s current health: %d/%d\n\n", this.getAllNames(), this.health, this.maxHealth);
             SleepFunction.sleep();
 
-            // This is very messy and I DON'T LIKE IT, but it's a band aid
-            if (enemyType.equals("Brute") || (enemyType.equals("Knight"))) {
-                this.hitArea = this.bodyPart[rand.nextInt(4)];
+            // Decides which body part is being hit by the enemy
+            this.hitArea = this.bodyPart[rand.nextInt(4)];
 
-                // Redefines variable for child classes that use this selection
-                this.attackType[1] = this.normalAttack + this.hitArea;
-                this.attackType[2] = this.missAttack + this.hitArea;
+            String isNormalPeasantAttack = this.enemyType.equals("Peasant") ? ", oof!" : ".";
 
-            }
+            // Redefines variable for child classes
+            this.attackType[1] = this.normalAttack + this.hitArea + isNormalPeasantAttack;
+            this.attackType[2] = this.missAttack + this.hitArea;
+
             System.out.println("What do you do?:");
             System.out.println("C - Check current status\nU - Use item/ attack\nR - run away.");
             Scanner choice = new Scanner(System.in);

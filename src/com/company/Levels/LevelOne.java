@@ -114,7 +114,6 @@ public class LevelOne
         System.out.printf("Your search takes you to the inn where you find your brother, %s...\n", garth.character);
         SleepFunction.sleep();
         System.out.printf("%s: '%s! It's great to see you again, come! Take a seat, i'll get you a beer!'\n", garth.character, player1.character);
-        garth.exists = true;
         SleepFunction.sleep();
         System.out.println("{{1 Beer has been added to your inventory}}\n");
         player1.items.put("beer (B)", 1);

@@ -97,8 +97,7 @@ public class Player
                 {
                     System.out.printf("%s leveled up! %s's new level is %d, new max health is %d and " +
                             "new AD is %d!\n", this.character, this.character, this.level, this.maxHealth, this.attackDamage);
-                    System.out.printf("Current XP : %dXP\n", this.currentXP);
-                    System.out.printf("Next Level XP needed : %dXP\n\n", this.nextLevel - this.currentXP);
+                    System.out.printf("Current XP : %dXP/%dXP\n", this.currentXP, this.nextLevel);
                     moreThanOneLevel = false;
                 }
             }

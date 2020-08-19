@@ -4,7 +4,7 @@ import static com.company.Levels.Introduction.player1;
 
 public class Knight extends EnemyAttributes {
 
-    // The peasant enemy type, fairly low damage low reward type
+    // The Knight enemy type, a threatening enemy with high damage output
     public Knight(int health, int noOfEnemies) {
         super(health, noOfEnemies);
         this.enemyType = "Knight";
