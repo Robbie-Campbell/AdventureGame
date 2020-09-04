@@ -21,6 +21,7 @@ public class LevelTwo
 
     public void startGame()
     {
+        /*
         // Garth is now an ally to the player who helps them in fights, this is displayed in this fight with a relatively
         // easy enemy
         garth.exists = true;
@@ -49,7 +50,7 @@ public class LevelTwo
 
         // A cheeky ruse! the player is lead in the opposite direction of where they wanted to go, yes it's cliche!
         // But if i'm fleshing out death valley options in code then i'm going to force people to go that way whether
-        // they like it or not!
+        // they like it or not! */
         while (unsure) {
             SleepFunction.sleep();
             System.out.printf("A signpost offers 2 directions, going west is a sign denoting 'wizards \n" +
@@ -96,6 +97,13 @@ public class LevelTwo
                 "at the end of the road you see a large castle, set on a huge snow-topped mountain\n",garth.character);
         SleepFunction.pressEnterToContinue();
 
+        // Cold has a status effect
+        System.out.println("You move up the mountain, but it's cold");
+        player1.isCold = true;
+        player1.coldStatus();
+        player1.isCold = false;
+        player1.coldStatus();
+
     }
 
     ///////////////////////////////////////// THE DEATH VALLEY CHOICE OPTIONS /////////////////////////////////////////
@@ -126,7 +134,7 @@ public class LevelTwo
                     break;
                 case "W":
                     unsure = false;
-                    intoWoods();
+                    nextStory();
                     break;
                 default:
                     System.out.println("Enter a valid option.");
@@ -157,7 +165,14 @@ public class LevelTwo
     }
 
     // The player goes off of the road, progressing the story without the knight fight (so less XP and no weapon buff)
-    private void intoWoods(){
-        return;
+    private void nextStory(){
+        System.out.printf("You and %s veer into the woods, you manage to find you way however and arrive at an " +
+                "eery looking cave", garth.character);
+        SleepFunction.pressEnterToContinue();
+        System.out.printf("%s: 'I have a bad feeling about this cave %s, But i guess we do need to find Grimbo...'",
+                garth.character, player1.character);
+        Brute bandits = new Brute(50, 2);
+        SleepFunction.sleep();
+        System.out.printf("%s: 'Oh no, bandits... they look pretty mean'", garth.character);
     }
 }

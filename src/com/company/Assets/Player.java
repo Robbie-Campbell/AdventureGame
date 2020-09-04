@@ -31,6 +31,7 @@ public class Player
     // Character traits
     public int maxHealth = 50;
     public boolean isSober = true;
+    public boolean isCold = false;
     public String genderChildStatus;
     public String genderSiblingStatus;
     public int health = 50;
@@ -101,6 +102,25 @@ public class Player
                     moreThanOneLevel = false;
                 }
             }
+        }
+    }
+
+    // If the player is cold they have a negative status effect
+    public void coldStatus()
+    {
+        if (isCold)
+        {
+            this.attackDamage *= 0.8;
+            this.defence *= 1.25;
+            System.out.printf("Cold status added:\nnew AD:%d\nnew defence:%d%%\n", this.attackDamage, (int) (100 - this.defence * 100));
+            SleepFunction.sleep();
+        }
+        else
+        {
+            this.attackDamage *= 1.25;
+            this.defence *= 0.8;
+            System.out.printf("Cold status removed:\nnew AD:%d\nnew defence:%d%%", this.attackDamage, (int) (100 - this.defence * 100));
+            SleepFunction.sleep();
         }
     }
 

@@ -25,8 +25,8 @@ public class Main
     {
         Introduction welcome = new Introduction();
         welcome.introduction();
-        LevelOne play = new LevelOne();
-        play.startGame();
+        //LevelOne play = new LevelOne();
+        //play.startGame();
         LevelTwo secondLevel = new LevelTwo();
         secondLevel.startGame();
     }
