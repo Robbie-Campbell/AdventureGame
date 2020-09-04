@@ -9,7 +9,7 @@ public class Knight extends EnemyAttributes {
         super(health, noOfEnemies);
         this.enemyType = "Knight";
         this.normalAttack = "deeply cuts your ";
-        this.missAttack = "missing, his greatsword pierces the air, nearly slicing your ";
+        this.missAttack = "misses, his greatsword pierces the air, nearly slicing your ";
         for (int i = 0; i < this.noOfEnemies; i++) {
             this.nameChoices.add(i, this.enemyType + " " + name[rand.nextInt(6)]);
         }
