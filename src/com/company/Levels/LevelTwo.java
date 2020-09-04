@@ -21,7 +21,7 @@ public class LevelTwo
 
     public void startGame()
     {
-        /*
+
         // Garth is now an ally to the player who helps them in fights, this is displayed in this fight with a relatively
         // easy enemy
         garth.exists = true;
@@ -50,7 +50,7 @@ public class LevelTwo
 
         // A cheeky ruse! the player is lead in the opposite direction of where they wanted to go, yes it's cliche!
         // But if i'm fleshing out death valley options in code then i'm going to force people to go that way whether
-        // they like it or not! */
+        // they like it or not!
         while (unsure) {
             SleepFunction.sleep();
             System.out.printf("A signpost offers 2 directions, going west is a sign denoting 'wizards \n" +
